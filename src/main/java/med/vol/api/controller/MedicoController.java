@@ -1,6 +1,10 @@
 package med.vol.api.controller;
 
 import med.vol.api.medico.DadosCadastroMedico;
+import med.vol.api.medico.Medico;
+import med.vol.api.medico.MedicoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,8 +14,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("medicos")
 public class MedicoController {
 
+    @Autowired
+    private MedicoRepository repository;
+
     @PostMapping
-    public void cadastrar(@RequestBody DadosCadastroMedico json) {
-        IO.println(json);
+    @Transactional
+    public void cadastrar(@RequestBody DadosCadastroMedico dados) {
+        // dados é um dto
+        repository.save(new Medico(dados));
     }
 }
